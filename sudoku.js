@@ -47,6 +47,21 @@ class Sudoku {
     return check;
   }
 
+  checkVertical(col, numToCheck){
+    let colToCheck = [];
+    for(let i = 0; i < 9; i++){
+      colToCheck.push(game.board()[i][col]);
+    }
+    
+    let check = true;
+    for(let i = 0; i < colToCheck.length; i++){
+      if(colToCheck[i] === numToCheck){
+        check = false;
+      }
+    }
+    return check;
+  }
+
 }
 
 // The file has newlines at the end of each line,
@@ -66,3 +81,4 @@ console.log(game.board())
 
 // console.log(game.findCell());
 console.log(game.checkHorizontal(0, 5));
+console.log(game.checkVertical(2, 4));
