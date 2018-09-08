@@ -2,7 +2,6 @@
 
 class Sudoku {
   constructor(board_string) {
-
   }
 
   solve() {}
@@ -14,7 +13,7 @@ class Sudoku {
     for(let i = 0; i < 9; i++){
       let row = [];
       for(let j = 0; j < 9; j++){
-        row.push(board_string[count]);
+        row.push(Number(board_string[count]));
         count++
       }
       output.push(row);
@@ -23,12 +22,29 @@ class Sudoku {
   }
 
   findCell(){
-    let cellToCheck = [];
-
-    // for(let i = 0; i < b)
+    var cellToCheck = [];
+    let board = game.board();
+    // console.log(board);
+    for(let i = 0; i < 9 ; i++){
+      let row = [];
+      for(let j = 0; j < 9; j++){
+        if(board[i][j] === 0){
+          row.push(j);
+        }
+      }
+      cellToCheck.push(row);
+    }
+    return cellToCheck;
   }
-  checkHorizontal(col){
-    // for(let i = 0; i <  )
+  checkHorizontal(row, numToCheck){
+    let rowToCheck = game.board()[row]
+    let check = true;
+    for(let i = 0; i < rowToCheck.length; i++){
+      if(rowToCheck[i] === numToCheck){
+        check = false;
+      }
+    }
+    return check;
   }
 
 }
@@ -47,3 +63,6 @@ console.log(board_string);
 game.solve()
 
 console.log(game.board())
+
+// console.log(game.findCell());
+console.log(game.checkHorizontal(0, 5));
