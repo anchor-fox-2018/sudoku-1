@@ -5,7 +5,7 @@ const LINE = '|';
 const NEW_ROW = "-------------------------------------";
 class Sudoku {
   constructor(board_string) {
-    this._board_string = board_string;
+    this._board_string = this.processStringToArray(board_string);
   }
   processStringToArray(board_string) {
     //let board_string = `105802000090076405200400819019007306762083090000061050007600030430020501600308900`
@@ -28,12 +28,13 @@ class Sudoku {
         printInLine = printInLine + array[i][j];
         //console.log(array[i][j]);
       }
+      console.log(printInLine);
       //console.log('n\n');
     }
   }
   board() {
-    if (this.solveSudoku(this.processStringToArray())) {
-      this.printGrid(solvedSudoku)
+    if (this.solveSudoku(this._board_string)) {
+      this.printGrid(this._board_string)
     }
     else {
       console.log('Ga bisa boss');
