@@ -6,13 +6,31 @@ class Sudoku {
 
   solve() {
     let board = game.board();
-    // for(let i = 0; i < this.findCell().length; i++){
-    //   for(let i)
-    // }
+    let cell = this.findCell();
+    for(let i = 0; i < cell.length; i++){
+      for(let j = 0; j < cell[i].length; j++){
+        let currentCell = board[i][cell[i][j]];
+        // console.log(currentCell);
+        let check = false;
+        while (check === false){
+          if(this.checkHorizontal(i, currentCell) === false || this.checkVertical(cell[i][j], currentCell) === false || this.checkBlockCell(this.findBlock(i,j), currentCell) === false){
+            // console.log(check);
+            currentCell++;
+            debugger;
+          } else {
+            check = true;
+            board[i][cell[i][j]] = currentCell;
+          }
+        }
+        // debugger;
+      }
+    }
+    return board;
   }
 
+  
   findBlock(row, col){
-    let board = game.board();
+    let board = this.board();
     let numBlock = []
     if(row < 3){
       if(col < 3){
@@ -118,6 +136,7 @@ class Sudoku {
     }
     return cellToCheck;
   }
+
   checkHorizontal(row, numToCheck){
     let rowToCheck = game.board()[row]
     let check = true;
@@ -155,14 +174,16 @@ var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
 
 var game = new Sudoku(board_string)
 
-console.log(board_string);
+// console.log(board_string);
 // Remember: this will just fill out what it can and not "guess"
-game.solve()
 
-console.log(game.board())
-
+// console.log(game.board())
 // console.log(game.findCell());
+console.log(game.solve())
+
+
+
 // console.log(game.checkHorizontal(0, 5));
-// console.log(game.checkVertical(2, 4));
-console.log(game.findBlock(8, 6));
-console.log(game.checkBlockCell(game.findBlock(8,6), 2));
+// console.log(game.checkVertical(1, 3));
+// console.log(game.findBlock(8, 6));
+// console.log(game.checkBlockCell(game.findBlock(8,6), 2));
