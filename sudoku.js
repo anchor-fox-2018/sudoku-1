@@ -4,7 +4,89 @@ class Sudoku {
   constructor(board_string) {
   }
 
-  solve() {}
+  solve() {
+    let board = game.board();
+    // for(let i = 0; i < this.findCell().length; i++){
+    //   for(let i)
+    // }
+  }
+
+  findBlock(row, col){
+    let board = game.board();
+    let numBlock = []
+    if(row < 3){
+      if(col < 3){
+        for(let i = 0; i < 3; i++){
+          for(let j = 0; j < 3; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      } else if(col < 6){
+        for(let i = 0; i < 3; i++){
+          for(let j = 3; j < 6; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      } else if(col < 9){
+        for(let i = 0; i < 3; i++){
+          for(let j = 6; j < 9; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      }
+    } else if(row < 6){
+      if(col < 3){
+        for(let i = 3; i < 6; i++){
+          for(let j = 0; j < 3; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      } else if(col < 6){
+        for(let i = 3; i < 6; i++){
+          for(let j = 3; j < 6; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      } else if(col < 9){
+        for(let i = 3; i < 6; i++){
+          for(let j = 6; j < 9; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      }
+    } else if(row < 9){
+      if(col < 3){
+        for(let i = 6; i < 9; i++){
+          for(let j = 0; j < 3; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      } else if(col < 6){
+        for(let i = 6; i < 9; i++){
+          for(let j = 3; j < 6; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      } else if(col < 9){
+        for(let i = 6; i < 9; i++){
+          for(let j = 6; j < 9; j++){
+            numBlock.push(board[i][j]);
+          }
+        }
+      }
+    }
+    return numBlock;
+  }
+  
+  checkBlockCell(block, numToCheck){
+    let check = true;
+    for (let i = 0; i < block.length; i++){
+      if(block[i] === numToCheck){
+        check = false;
+      }
+    }
+    return check;
+  }
 
   // Returns a string representing the current state of the board
   board() {
@@ -80,5 +162,7 @@ game.solve()
 console.log(game.board())
 
 // console.log(game.findCell());
-console.log(game.checkHorizontal(0, 5));
-console.log(game.checkVertical(2, 4));
+// console.log(game.checkHorizontal(0, 5));
+// console.log(game.checkVertical(2, 4));
+console.log(game.findBlock(8, 6));
+console.log(game.checkBlockCell(game.findBlock(8,6), 2));
