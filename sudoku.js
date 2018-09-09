@@ -7,30 +7,44 @@ class Sudoku {
   solve() {
     let board = game.board();
     let cell = this.findCell();
+    let checkSteps = []
+    for(let i = 0; i < cell.length; i++){
+      let rowCheckSteps = []
+      for(let j = 0; j < cell[i].length; j++){
+        rowCheckSteps.push(0)
+      }
+      checkSteps.push(rowCheckSteps);
+    }
+
     for(let i = 0; i < cell.length; i++){
       for(let j = 0; j < cell[i].length; j++){
         let currentCell = board[i][cell[i][j]];
         // console.log(currentCell);
         let check = false;
-        while (check === false){
-          if(this.checkHorizontal(i, currentCell) === false || this.checkVertical(cell[i][j], currentCell) === false || this.checkBlockCell(this.findBlock(i,j), currentCell) === false){
+        while (check === false && currentCell < 9){
+          if(this.checkHorizontal(checkSteps, i, currentCell) === false || this.checkVertical(checkSteps, cell[i][j], currentCell) === false || this.checkBlockCell(this.findBlock(checkSteps, i,cell[i][j]), currentCell) === false){
             // console.log(check);
             currentCell++;
-            debugger;
+          }  else if(currentCell === 9 && check === false){
+            //backtrack
+
           } else {
             check = true;
-            board[i][cell[i][j]] = currentCell;
+            //changing for currentboard
+            checkSteps[i][j] = currentCell;
           }
+          console.log(this.currentBoard(checkSteps));
+          debugger;
         }
         // debugger;
       }
     }
-    return board;
+    // return board;
   }
 
   
-  findBlock(row, col){
-    let board = this.board();
+  findBlock(checkSteps,row, col){
+    let board = this.currentBoard(checkSteps);
     let numBlock = []
     if(row < 3){
       if(col < 3){
@@ -137,21 +151,37 @@ class Sudoku {
     return cellToCheck;
   }
 
-  checkHorizontal(row, numToCheck){
-    let rowToCheck = game.board()[row]
+  currentBoard(checkSteps){
+
+    let board = this.board();
+    let cell = this.findCell();
+    for(let i = 0; i < cell.length; i++){
+      for(let j = 0; j < cell[i].length; j++){
+        board[i][cell[i][j]] = checkSteps[i][j];
+      }
+    }
+    return board;
+    
+  }
+
+  checkHorizontal(checkSteps, row, numToCheck){
+    
+    let rowToCheck = this.currentBoard(checkSteps)[row];
     let check = true;
     for(let i = 0; i < rowToCheck.length; i++){
       if(rowToCheck[i] === numToCheck){
         check = false;
       }
+      // debugger;
+
     }
     return check;
   }
 
-  checkVertical(col, numToCheck){
+  checkVertical(checkSteps, col, numToCheck){
     let colToCheck = [];
     for(let i = 0; i < 9; i++){
-      colToCheck.push(game.board()[i][col]);
+      colToCheck.push(this.currentBoard(checkSteps)[i][col]);
     }
     
     let check = true;
@@ -179,11 +209,13 @@ var game = new Sudoku(board_string)
 
 // console.log(game.board())
 // console.log(game.findCell());
-console.log(game.solve())
+// console.log(game.solve())
+// let udin = undefined;
+// console.log(!udin);
+// console.log(udin);
+game.solve();
 
-
-
-// console.log(game.checkHorizontal(0, 5));
-// console.log(game.checkVertical(1, 3));
+// console.log('horizontal : ', game.checkHorizontal(0, 9));
+// console.log('vertical : ', game.checkVertical(8, 9));
 // console.log(game.findBlock(8, 6));
-// console.log(game.checkBlockCell(game.findBlock(8,6), 2));
+// console.log('block: ', game.checkBlockCell(game.findBlock(0,8), 9));
