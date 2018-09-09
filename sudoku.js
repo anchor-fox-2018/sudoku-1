@@ -16,9 +16,45 @@ class Sudoku {
       checkSteps.push(rowCheckSteps);
     }
 
-    for(let i = 0; i < cell.length; i++){
-      for(let j = 0; j < cell[i].length; j++){
-        let currentCell = board[i][cell[i][j]];
+    this.onTrack(checkSteps, 0);
+    
+    // return board;
+  }
+
+
+  backTrack(rowStart, colStart, checkSteps){
+    
+    let cell = this.findCell();    
+    let i = rowStart;
+    let j = colStart-1;
+    let currentCell = this.currentBoard(checkSteps)[i][cell[i][j]]
+    let check = false;
+    while(check === false){
+      if(this.checkHorizontal(checkSteps, i, currentCell) === false || this.checkVertical(checkSteps, cell[i][j], currentCell) === false || this.checkBlockCell(this.findBlock(checkSteps, i,cell[i][j]), currentCell) === false){
+        if(currentCell < 9){
+          currentCell++
+        } else {
+          checkSteps[i][j] = 0;
+          this.backTrack(i, j, checkSteps)
+        }
+        // return checkSteps;
+      } else {
+        check = true;
+        checkSteps[i][j] = currentCell;
+      }
+    }
+      
+    
+    return this.onTrack(checkSteps, i, j+1)
+  }
+
+  onTrack(checkSteps, rowStart, colStart){
+
+    let cell = this.findCell();
+    for(let i = rowStart; i < cell.length; i++){
+      for(let j = colStart; j < cell[i].length; j++){
+        let currentCell = this.currentBoard(checkSteps)[i][cell[i][j]];//??? atau this.currentBoard(checkSteps)[i]...
+
         // console.log(currentCell);
         let check = false;
         while (check === false){
@@ -27,6 +63,7 @@ class Sudoku {
               currentCell++;
             } else {
               console.log('you have to backtrack!')
+              this.backTrack(i, j, checkSteps)
             }
 
           } else {
@@ -35,13 +72,15 @@ class Sudoku {
             //changing for currentboard
             checkSteps[i][j] = currentCell;
           }
+          // if(j === cell[i].length-1){
+          //   j =  0;
+          // }
           console.log(this.currentBoard(checkSteps));
           debugger;
         }
         // debugger;
       }
     }
-    // return board;
   }
 
   
