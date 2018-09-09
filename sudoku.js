@@ -4,6 +4,7 @@ class Sudoku {
   constructor(board_string) {
   }
 
+  // var cell = this.findCell();
   solve() {
     let board = game.board();
     let cell = this.findCell();
@@ -16,7 +17,7 @@ class Sudoku {
       checkSteps.push(rowCheckSteps);
     }
 
-    this.onTrack(checkSteps, 0);
+    this.onTrack(checkSteps, 0, 0);
     
     // return board;
   }
@@ -24,7 +25,7 @@ class Sudoku {
 
   backTrack(rowStart, colStart, checkSteps){
     
-    let cell = this.findCell();    
+    let cell = this.findCell();  
     let i = rowStart;
     let j = colStart-1;
     let currentCell = this.currentBoard(checkSteps)[i][cell[i][j]]
@@ -35,6 +36,10 @@ class Sudoku {
           currentCell++
         } else {
           checkSteps[i][j] = 0;
+          if(j === 0){
+            i -= 1;
+            j = cell[i].length;
+          }  
           this.backTrack(i, j, checkSteps)
         }
         // return checkSteps;
@@ -76,9 +81,12 @@ class Sudoku {
           //   j =  0;
           // }
           console.log(this.currentBoard(checkSteps));
-          debugger;
         }
         // debugger;
+      }
+      debugger;
+      if(colStart > 0){
+        colStart = 0;
       }
     }
   }
@@ -176,9 +184,9 @@ class Sudoku {
     return output;
   }
 
-  findCell(){
+  findCell() {
     var cellToCheck = [];
-    let board = game.board();
+    let board = this.board();
     // console.log(board);
     for(let i = 0; i < 9 ; i++){
       let row = [];
