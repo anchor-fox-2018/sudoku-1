@@ -21,14 +21,16 @@ class Sudoku {
         let currentCell = board[i][cell[i][j]];
         // console.log(currentCell);
         let check = false;
-        while (check === false && currentCell < 9){
+        while (check === false){
           if(this.checkHorizontal(checkSteps, i, currentCell) === false || this.checkVertical(checkSteps, cell[i][j], currentCell) === false || this.checkBlockCell(this.findBlock(checkSteps, i,cell[i][j]), currentCell) === false){
-            // console.log(check);
-            currentCell++;
-          }  else if(currentCell === 9 && check === false){
-            //backtrack
+            if(currentCell < 9){
+              currentCell++;
+            } else {
+              console.log('you have to backtrack!')
+            }
 
           } else {
+
             check = true;
             //changing for currentboard
             checkSteps[i][j] = currentCell;
