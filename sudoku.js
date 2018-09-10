@@ -4,6 +4,19 @@ class Sudoku {
   constructor(board_string) {
   }
 
+  sleep (milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds) {
+        break;
+      }
+    }
+  }
+  clearScreen () {
+    // Un-comment this line if you have trouble with console.clear();
+    // return process.stdout.write('\033c');
+    console.clear();
+  }
   // var cell = this.findCell();
   solve() {
     let board = game.board();
@@ -76,7 +89,7 @@ class Sudoku {
             if(currentCell < 9){
               currentCell++;
             } else {
-              console.log('you have to backtrack!')
+              console.log('you are backtracking!')
               if(j === 0){
                 i -= 1;
                 j = cell[i].length;
