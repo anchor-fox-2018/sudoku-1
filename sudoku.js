@@ -29,28 +29,36 @@ class Sudoku {
     let i = rowStart;
     let j = colStart-1;
     let currentCell = this.currentBoard(checkSteps)[i][cell[i][j]]
-    let check = false;
-    while(check === false){
-      if(this.checkHorizontal(checkSteps, i, currentCell) === false || this.checkVertical(checkSteps, cell[i][j], currentCell) === false || this.checkBlockCell(this.findBlock(checkSteps, i,cell[i][j]), currentCell) === false){
-        if(currentCell < 9){
-          currentCell++
+    if(i === 0 && j === 0){
+      return this.onTrack(checkSteps, i, j+1)
+    // this.onTrack(checkSteps, i, j+1)
+
+    } else {
+
+      let check = false;
+      while(check === false){
+        if(this.checkHorizontal(checkSteps, i, currentCell) === false || this.checkVertical(checkSteps, cell[i][j], currentCell) === false || this.checkBlockCell(this.findBlock(checkSteps, i,cell[i][j]), currentCell) === false){
+          if(currentCell < 9){
+            currentCell++
+          } else {
+            checkSteps[i][j] = 0;
+  
+            if(j === 0){
+                i -= 1;
+                j = cell[i].length;
+            }  
+            this.backTrack(i, j, checkSteps)
+          }
+          // return checkSteps;
         } else {
-          checkSteps[i][j] = 0;
-          if(j === 0){
-            i -= 1;
-            j = cell[i].length;
-          }  
-          this.backTrack(i, j, checkSteps)
+          check = true;
+          checkSteps[i][j] = currentCell;
         }
-        // return checkSteps;
-      } else {
-        check = true;
-        checkSteps[i][j] = currentCell;
       }
+      return this.onTrack(checkSteps, i, j+1)
     }
       
     
-    return this.onTrack(checkSteps, i, j+1)
   }
 
   onTrack(checkSteps, rowStart, colStart){
@@ -58,6 +66,7 @@ class Sudoku {
     let cell = this.findCell();
     for(let i = rowStart; i < cell.length; i++){
       for(let j = colStart; j < cell[i].length; j++){
+    // this.cell =  this.findCell()
         let currentCell = this.currentBoard(checkSteps)[i][cell[i][j]];//??? atau this.currentBoard(checkSteps)[i]...
 
         // console.log(currentCell);
@@ -68,6 +77,10 @@ class Sudoku {
               currentCell++;
             } else {
               console.log('you have to backtrack!')
+              if(j === 0){
+                i -= 1;
+                j = cell[i].length;
+              }
               this.backTrack(i, j, checkSteps)
             }
 
@@ -77,18 +90,18 @@ class Sudoku {
             //changing for currentboard
             checkSteps[i][j] = currentCell;
           }
-          // if(j === cell[i].length-1){
-          //   j =  0;
-          // }
           console.log(this.currentBoard(checkSteps));
+          debugger;
         }
-        // debugger;
+          // if(i === cell.length-1 && j == checkSteps[] )
+          // debugger;
       }
-      debugger;
       if(colStart > 0){
         colStart = 0;
       }
     }
+    //stop the program
+    return this.currentBoard(checkSteps);
   }
 
   
